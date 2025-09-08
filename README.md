@@ -20,7 +20,7 @@ Multiplayer memory card game with audio support for learning and fun.
 
 ### Prerequisites
 - Node.js (v14+)
-- MongoDB running locally
+- MongoDB running locally (https://cloud.mongodb.com/v2...)
 - Git
 
 ### Installation

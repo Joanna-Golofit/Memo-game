@@ -1,0 +1,9 @@
+MONGODB_URI=mongodb://localhost:27017/memorygame
+PORT=3000
+NODE_ENV=development
+
+INSTRUKCJA:
+1. Skopiuj zawartość tego pliku
+2. Stwórz nowy plik o nazwie ".env" w tym folderze (src/memory/backend/)
+3. Wklej tam powyższą zawartość (pierwsze 3 linijki)
+4. Zapisz plik

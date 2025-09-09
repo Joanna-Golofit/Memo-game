@@ -25,8 +25,10 @@ db.once('open', function() {
 });
 
 // Routes
+console.log('Loading routes...'); // DODAJ TO
 app.use('/api/cards', require('./routes/cards'));
 app.use('/api/game', require('./routes/game'));
+console.log('Routes loaded successfully!'); // DODAJ TO
 
 // Health check
 app.get('/api/health', (req, res) => {

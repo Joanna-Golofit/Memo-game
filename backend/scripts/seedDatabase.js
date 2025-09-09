@@ -8,62 +8,66 @@ const sampleCards = [
   { 
     id: 'boy', 
     name: 'Boy', 
-    imagePath: '/uploads/images/boy.jpeg', 
+    imagePath: '/uploads/images/boy.jpg', 
     audioPath: '/uploads/audio/boy.mp3', 
-    category: 'people' 
+    category: 'people',
+    isActive: true  
   },
   { 
     id: 'cat', 
     name: 'Cat', 
-    imagePath: '/uploads/images/cat.jpeg', 
+    imagePath: '/uploads/images/cat.jpg', 
     audioPath: '/uploads/audio/cat.mp3', 
-    category: 'objects' 
+    category: 'objects',
+    isActive: true  
   },
   { 
     id: 'mum', 
     name: 'Mum', 
-    imagePath: '/uploads/images/mum.jpeg', 
+    imagePath: '/uploads/images/mum.jpg', 
     audioPath: '/uploads/audio/mum.mp3', 
-    category: 'people' 
+    category: 'people',
+    isActive: true
   },
   { 
     id: 'grandpa', 
     name: 'Grandpa', 
     imagePath: '/uploads/images/grandpa.jpeg', 
     audioPath: '/uploads/audio/grandpa.mp3', 
-    category: 'people' 
+    category: 'people',
+    isActive: true
   },
-  
-  // Objects
   { 
     id: 'cupcake', 
     name: 'Cupcake', 
-    imagePath: '/uploads/images/cupcake.jpeg', 
+    imagePath: '/uploads/images/cupcake.jpg', 
     audioPath: '/uploads/audio/cupcake.mp3', 
-    category: 'objects' 
+    category: 'objects',
+    isActive: true
   },
   { 
     id: 'grandma', 
     name: 'Grandma', 
-    imagePath: '/uploads/images/grandma.jpeg', 
+    imagePath: '/uploads/images/grandma.jpg', 
     audioPath: '/uploads/audio/grandma.mp3', 
-    category: 'people' 
+    category: 'people',
+    isActive: true
   },
-  
-  // Colors/Shapes
   { 
     id: 'green', 
     name: 'Green', 
-    imagePath: '/uploads/images/green.jpeg', 
+    imagePath: '/uploads/images/green.jpg', 
     audioPath: '/uploads/audio/green.mp3', 
-    category: 'colors' 
+    category: 'colors',
+    isActive: true
   },
   { 
     id: 'yellow', 
     name: 'Yellow', 
-    imagePath: '/uploads/images/yellow.jpeg', 
+    imagePath: '/uploads/images/yellow.jpg', 
     audioPath: '/uploads/audio/yellow.mp3', 
-    category: 'colors' 
+    category: 'colors',
+    isActive: true
   },
 ];
 

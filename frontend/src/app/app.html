@@ -9,21 +9,38 @@
     <!-- Panel gracza po lewej -->
     <div class="player-panel left-player">
       <div class="player-name">Inka</div>
-      <div class="score">0</div>
+      <div class="score">🏆 0</div>
     </div>
 
     <!-- Plansza gry w środku -->
-    <div class="game-board">
-      <div class="card">Karta 1</div>
-      <div class="card">Karta 2</div>
-      <div class="card">Karta 3</div>
-      <div class="card">Karta 4</div>
+     <!-- Plansza gry - pierwsze 8 kart z backend -->
+     <div class="game-board">
+      <!-- Pokaż karty z backend -->
+      <div 
+        class="card" 
+        *ngFor="let card of cards(); let i = index"
+      >
+        <img 
+          [src]="getImageUrl(card)" 
+          [alt]="card.name"
+          class="card-image"
+        />
+        <div class="card-name">{{ card.name }}</div>
+      </div>
+      
+      <!-- Wypełnij do 16 pustymi kartami -->
+      <div 
+        class="card empty-card" 
+        *ngFor="let i of [1,2,3,4,5,6,7,8]"
+      >
+        {{ 8 + i }}
+      </div>
     </div>
 
     <!-- Panel gracza po prawej -->
     <div class="player-panel right-player">
       <div class="player-name">Lorena</div>
-      <div class="score">0</div>
+      <div class="score">🏆 0</div>
     </div>
   </main>
 </div>

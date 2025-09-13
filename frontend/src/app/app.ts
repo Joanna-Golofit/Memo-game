@@ -13,6 +13,8 @@ interface Card {
   isMatched?: boolean;
   position?: number;
 }
+import { AudioService } from './audio.service';
+
 @Component({
   selector: 'app-root',
   imports: [CommonModule],
@@ -21,6 +23,7 @@ interface Card {
 })
 export class App implements OnInit {
   private http = inject(HttpClient);
+  private audioService = inject(AudioService);
   protected readonly title = signal('MEMO MIX');
   protected readonly cards = signal<Card[]>([]);
   protected readonly flippedCards = signal<Card[]>([]); 
@@ -101,7 +104,7 @@ export class App implements OnInit {
     return shuffled;
   }
 
-  protected onCardClick(clickedCard: Card) {
+  protected async onCardClick(clickedCard: Card) {
     // Nie pozwól klikać podczas preview
     if (this.gamePhase() === 'preview') {
       return;
@@ -124,18 +127,21 @@ export class App implements OnInit {
       )
     );
     
+    // ODTWÓRZ DŹWIĘK KARTY
+    await this.audioService.playCardSound(clickedCard.audioPath);
+    
     this.flippedCards.update(flipped => [...flipped, clickedCard]);
     
     if (this.flippedCards().length === 2) {
-      setTimeout(() => this.checkMatch(), 1000);
+      setTimeout(() => this.checkMatch(), 1500); // Wydłuż na audio
     }
   }
   
-  private checkMatch() {
+  private async checkMatch() {
     const [first, second] = this.flippedCards();
     
     if (first.id === second.id) {
-      // MATCH! - oznacz jako znalezione
+      // MATCH! 
       this.cards.update(cards =>
         cards.map(card =>
           card.position === first.position || card.position === second.position
@@ -144,19 +150,20 @@ export class App implements OnInit {
         )
       );
       
-      // DODAJ PUNKT do aktualnego gracza
+      // ODTWÓRZ DŹWIĘK SUKCESU
+      await this.audioService.playSuccessSound();
+      
+      // Dodaj punkt
       if (this.currentPlayer() === 0) {
         this.player1Score.update(score => score + 1);
       } else {
         this.player2Score.update(score => score + 1);
       }
       
-      console.log(`MATCH! ${first.name} - Gracz ${this.currentPlayer() + 1} zyskuje punkt!`);
-      
-      // Sprawdź czy gra się skończyła
+      console.log(`MATCH! ${first.name}`);
       this.checkGameEnd();
     } else {
-      // NO MATCH - odwróć z powrotem
+      // NO MATCH
       this.cards.update(cards =>
         cards.map(card =>
           card.position === first.position || card.position === second.position
@@ -165,7 +172,6 @@ export class App implements OnInit {
         )
       );
       
-      // Zmień gracza
       this.currentPlayer.update(player => player === 0 ? 1 : 0);
     }
     

@@ -2,45 +2,56 @@
   <!-- Nagłówek gry -->
   <header class="game-header">
     <h1 class="game-title">{{ title() }}</h1>
-  </header>
+    
+</header>
+   
 
-  <!-- Główna sekcja gry - gracze po bokach -->
+  <!-- Główna sekcja gry -->
   <main class="game-main">
-    <!-- Panel gracza po lewej -->
-    <div class="player-panel left-player">
+    <!-- Panel gracza po lewej - Inka -->
+    <div class="player-panel left-player" [class.active]="currentPlayer() === 0">
       <div class="player-name">Inka</div>
-      <div class="score">🏆 0</div>
+      <div class="score">⭐ {{ player1Score() }}</div>
     </div>
 
-    <!-- Plansza gry w środku -->
-     <!-- Plansza gry - pierwsze 8 kart z backend -->
-     <div class="game-board">
-      <!-- Pokaż karty z backend -->
+    <!-- Plansza gry -->
+    <div class="game-board">
       <div 
         class="card" 
-        *ngFor="let card of cards(); let i = index"
+        *ngFor="let card of cards()"
+        [class.flipped]="card.isFlipped"
+        [class.matched]="card.isMatched"
+        (click)="onCardClick(card)"
       >
-        <img 
-          [src]="getImageUrl(card)" 
-          [alt]="card.name"
-          class="card-image"
-        />
-        <div class="card-name">{{ card.name }}</div>
-      </div>
-      
-      <!-- Wypełnij do 16 pustymi kartami -->
-      <div 
-        class="card empty-card" 
-        *ngFor="let i of [1,2,3,4,5,6,7,8]"
-      >
-        {{ 8 + i }}
+        <!-- Przód karty (obrazek) -->
+        <div class="card-front">
+          <img 
+            [src]="getImageUrl(card)" 
+            [alt]="card.name"
+            class="card-image"
+          />
+          <div class="card-name">{{ card.name }}</div>
+        </div>
+        
+        <!-- Tył karty -->
+        <div class="card-back">
+          <div class="card-pattern">?</div>
+        </div>
       </div>
     </div>
 
-    <!-- Panel gracza po prawej -->
-    <div class="player-panel right-player">
-      <div class="player-name">Lorena</div>
-      <div class="score">🏆 0</div>
+    <!-- Panel gracza po prawej - Mama -->
+    <div class="player-panel right-player" [class.active]="currentPlayer() === 1">
+      <div class="player-name">Mama</div>
+      <div class="score">🏆 {{ player2Score() }}</div>
     </div>
   </main>
+
+   <!-- Status gry -->
+   <div class="game-status" *ngIf="gamePhase() === 'preview'">
+    <div class="preview-message">
+      Zapamiętaj gdzie są pary! {{ previewTimeLeft() }}
+    </div>
+  </div>
+
 </div>

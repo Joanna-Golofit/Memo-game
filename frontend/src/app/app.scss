@@ -1,115 +1,190 @@
 .memory-game {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
-    min-height: 100vh;
-  }
-  
-  .game-header {
-    margin-bottom: 30px;
-  }
-  
-  .game-title {
-    font-size: 3rem;
-    color: #2c3e50;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-  }
-  
-  /* NOWY - główna sekcja z poziomym layoutem */
-  .game-main {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    width: 100%;
-    max-width: 1000px;
-  }
-  
-  /* Panele graczy */
-  .player-panel {
-    background: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    min-width: 150px;
-    text-align: center;
-  }
-  
-  .left-player {
-    background: linear-gradient(135deg, #4169E1, #1E90FF);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
+  min-height: 100vh;
+}
+
+.game-header {
+  margin-bottom: 30px;
+}
+
+.game-title {
+  font-size: 3rem;
+  color: #2c3e50;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.game-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px; /* Większy gap między elementami */
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Panele graczy */
+.player-panel {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 150px;
+  text-align: center;
+  transition: all 0.3s ease; /* Animacja dla active */
+  border: 5px solid transparent; /* ZAWSZE jest border, ale przezroczysty */
+  box-sizing: border-box; /* Border nie zmienia rozmiaru */
+}
+
+.left-player {
+  background: linear-gradient(135deg, #4169E1, #1E90FF);
 }
 
 .right-player {
-    background: 
-    linear-gradient(135deg, #2ECC71, #27AE60);
-  }
-  
-  .player-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-  }
-  
-  .score {
-    font-size: 2rem;
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-    margin-top: 10px;
-  }
-  
-  /* Plansza gry */
-  .game-board {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 kolumny */
-    grid-template-rows: repeat(4, 1fr);    /* 4 rzędy */
-    gap: 8px;
-    padding: 20px;
-    background: rgba(255,255,255,0.2);
-    border-radius: 15px;
-  }
-  
-  .card {
-    width: 80px;
-    height: 80px;
-    background: #3498db;
-    color: white;
-    display: flex;
-    flex-direction: column; 
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    padding: 8px;
-  }
-  
-  .card:hover {
-    background: #2980b9;
-    transform: scale(1.05);
-  }
+  background: linear-gradient(135deg, #2ECC71, #27AE60);
+}
 
-  .card-image {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 4px;
-    flex-shrink: 0;  
-  }
-  
-  .card-name {
-    font-size: 0.7rem;
-    margin-top: 2px;
-    text-align: center;
-    text-align: center;
+/* WIĘKSZA ramka dla aktywnego gracza */
+.player-panel.active {
+  border-color: #f39c12; /* Zmień kolor przezroczystego border */
+  box-shadow: 0 0 20px rgba(243, 156, 18, 0.6); /* Mocniejszy cień */
+}
+
+.player-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.score {
+  font-size: 2rem;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  margin-top: 10px;
+}
+
+/* Plansza gry - WIĘKSZE PRZERWY */
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 15px; /* WIĘKSZY gap między kartami */
+  padding: 25px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* KARTY */
+.card {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.card:hover:not(.matched) {
+  transform: scale(1.05);
+}
+
+.card.matched {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* Strony kart */
+.card-front,
+.card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  box-sizing: border-box;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  transition: opacity 0.3s ease;
+}
+
+/* TYŁ KARTY - domyślnie widoczny */
+.card-back {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  opacity: 1; /* Zawsze widoczny... */
+}
+
+/* PRZÓD KARTY - domyślnie ukryty */
+.card-front {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  gap: 6px;
+  opacity: 0; /* Domyślnie ukryty */
+}
+
+/* FLIPPED STATE - pokaż przód, ukryj tył */
+.card.flipped .card-front {
+  opacity: 1; /* Pokaż przód */
+}
+
+.card.flipped .card-back {
+  opacity: 0; /* Ukryj tył */
+}
+
+/* Zawartość kart */
+.card-pattern {
+  font-size: 2.5rem;
+  margin: 0;
+  padding: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  line-height: 1;
+}
+
+.card-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.card-name {
+  font-size: 0.65rem;
+  text-align: center;
   line-height: 1.1;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-  }
-  
-  .empty-card {
-    background: #95a5a6 !important;
-    color: #fff;
-  }
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+  margin: 0;
+  padding: 0;
+}
+
+/* Status gry */
+.game-status {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.preview-message {
+  background: linear-gradient(135deg, #f1c40f, #f39c12);
+  color: #2c3e50;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+}

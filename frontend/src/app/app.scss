@@ -187,4 +187,176 @@
   display: inline-block;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+  animation: slideUp 0.5s ease; /* Płynne wejście */
+}
+
+/* Footer z przyciskiem restart */
+.game-footer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.restart-btn {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.restart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(231, 76, 60, 0.4);
+}
+
+/* Animacja gdy gra się skończyła */
+.restart-btn.pulse {
+  animation: pulse 2s infinite;
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Dialog potwierdzenia */
+.restart-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300; /* Najwyższy z-index */
+}
+
+.restart-dialog {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  max-width: 400px;
+  margin: 20px;
+}
+
+.restart-dialog h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+
+.restart-dialog p {
+  color: #7f8c8d;
+  margin-bottom: 25px;
+  font-size: 1rem;
+}
+
+.dialog-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn-cancel,
+.btn-confirm {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.btn-cancel {
+  background: #95a5a6;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background: #7f8c8d;
+}
+
+.btn-confirm {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-confirm:hover {
+  background: #c0392b;
+}
+
+/* Komunikat o końcu gry */
+.finish-message {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  padding: 25px 40px;
+  border-radius: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(46, 204, 113, 0.4);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  animation: celebrationPop 0.6s ease; /* Efektowne wejście */
+  line-height: 1.4;
+}
+
+/* OVERLAY MESSAGES - nie wpływają na layout */
+.overlay-message {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  pointer-events: none; /* Nie blokuj klików */
+}
+
+/* Preview message - NA DOLE */
+.bottom-overlay {
+  bottom: 120px; /* Nad przyciskiem restart */
+}
+
+/* Gratulacje - W CENTRUM (nad planszą) */
+.center-overlay {
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200; /* Wyżej niż preview */
+  pointer-events: auto; /* Pozwól na interakcje */
+}
+
+/* Animacje */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes celebrationPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }

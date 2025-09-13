@@ -1,15 +1,13 @@
 <div class="memory-game">
-  <!-- Nagłówek gry -->
+  <!-- Nagłówek gry - BEZ dynamicznych elementów -->
   <header class="game-header">
     <h1 class="game-title">{{ title() }}</h1>
-    
-</header>
-   
+  </header>
 
   <!-- Główna sekcja gry -->
   <main class="game-main">
     <!-- Panel gracza po lewej - Inka -->
-    <div class="player-panel left-player" [class.active]="currentPlayer() === 0">
+    <div class="player-panel left-player" [class.active]="currentPlayer() === 0 && gamePhase() === 'playing'">
       <div class="player-name">Inka</div>
       <div class="score">⭐ {{ player1Score() }}</div>
     </div>
@@ -40,18 +38,58 @@
       </div>
     </div>
 
-    <!-- Panel gracza po prawej - Mama -->
-    <div class="player-panel right-player" [class.active]="currentPlayer() === 1">
-      <div class="player-name">Mama</div>
+    <!-- Panel gracza po prawej - Lorena -->
+    <div class="player-panel right-player" [class.active]="currentPlayer() === 1 && gamePhase() === 'playing'">
+      <div class="player-name">Lorena</div>
       <div class="score">🏆 {{ player2Score() }}</div>
     </div>
   </main>
 
-   <!-- Status gry -->
-   <div class="game-status" *ngIf="gamePhase() === 'preview'">
+  <!-- Przycisk restart -->
+  <footer class="game-footer">
+    <button 
+      class="restart-btn"
+      (click)="onRestartClick()"
+      [class.pulse]="isGameFinished()"
+    >
+      <span *ngIf="isGameFinished()">🎉 Zagraj ponownie</span>
+      <span *ngIf="!isGameFinished() && hasNoMatchedCards()">🔄 Nowe karty</span>
+      <span *ngIf="!isGameFinished() && !hasNoMatchedCards()">🔄 Restart gry</span>
+    </button>
+  </footer>
+
+  <!-- OVERLAY MESSAGES - nie wpływają na layout -->
+  
+  <!-- Preview countdown - NA DOLE -->
+  <div class="overlay-message bottom-overlay" *ngIf="gamePhase() === 'preview'">
     <div class="preview-message">
-      Zapamiętaj gdzie są pary! {{ previewTimeLeft() }}
+      ⏱️ Zapamiętaj gdzie są pary! {{ previewTimeLeft() }}
+    </div>
+  </div>
+  
+  <!-- Gratulacje - NAD PLANSZĄ -->
+  <div class="overlay-message center-overlay" *ngIf="isGameFinished()">
+    <div class="finish-message">
+      🎉 Gratulacje!<br>
+      <span *ngIf="player1Score() > player2Score()">🏆 Wygrywa Inka!</span>
+      <span *ngIf="player2Score() > player1Score()">🏆 Wygrywa Lorena!</span>
+      <span *ngIf="player1Score() === player2Score()">🤝 Remis!</span>
     </div>
   </div>
 
+  <!-- Dialog restart -->
+  <div class="restart-overlay" *ngIf="showRestartConfirm()">
+    <div class="restart-dialog">
+      <h3>🤔 Na pewno chcesz zacząć od nowa?</h3>
+      <p>Stracisz obecny postęp w grze!</p>
+      <div class="dialog-buttons">
+        <button class="btn-cancel" (click)="cancelRestart()">
+          ❌ Nie, graj dalej
+        </button>
+        <button class="btn-confirm" (click)="confirmRestart()">
+          ✅ Tak, zacznij od nowa
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

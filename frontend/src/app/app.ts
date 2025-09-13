@@ -35,6 +35,9 @@ export class App implements OnInit {
     protected readonly player2Score = signal<number>(0);
     protected readonly currentPlayer = signal<number>(0); // 0 = Inka, 1 = Lorena
 
+  // NOWY sygnał dla restart
+  protected readonly showRestartConfirm = signal<boolean>(false);
+
   ngOnInit() {
     this.loadCards();
   }
@@ -198,5 +201,65 @@ export class App implements OnInit {
   // Helper do generowania URL obrazka
   getImageUrl(card: Card): string {
     return `http://localhost:3000${card.imagePath}`;
+  }
+
+  // NOWE FUNKCJE RESTART:
+  
+  // Sprawdź czy gra jest skończona
+  protected isGameFinished(): boolean {
+    return this.gamePhase() === 'finished' || 
+           this.cards().length > 0 && this.cards().every(card => card.isMatched);
+  }
+  
+  // Sprawdź czy są jeszcze karty do odkrycia
+  protected hasUnmatchedCards(): boolean {
+    return this.cards().some(card => !card.isMatched);
+  }
+  
+  // ZAKTUALIZOWANA logika restart
+  protected onRestartClick() {
+    if (this.isGameFinished()) {
+      // Gra skończona - restart od razu
+      this.restartGame();
+    } else if (this.hasNoMatchedCards()) {
+      // Żadna para nie została odkryta - restart od razu
+      this.restartGame();
+    } else if (this.hasUnmatchedCards()) {
+      // Niektóre pary odkryte, niektóre nie - zapytaj o potwierdzenie
+      this.showRestartConfirm.set(true);
+    }
+  }
+  
+  // NOWA FUNKCJA - sprawdź czy żadna para nie została odkryta
+  protected hasNoMatchedCards(): boolean {
+    return this.cards().length > 0 && !this.cards().some(card => card.isMatched);
+  }
+
+  // Potwierdź restart
+  protected confirmRestart() {
+    this.showRestartConfirm.set(false);
+    this.restartGame();
+  }
+  
+  // Anuluj restart
+  protected cancelRestart() {
+    this.showRestartConfirm.set(false);
+  }
+  
+  // Wykonaj restart
+  protected restartGame() {
+    console.log('🔄 Restarting game...');
+    
+    // Zresetuj wszystkie sygnały do stanu początkowego
+    this.gamePhase.set('preview');
+    this.previewTimeLeft.set(5);
+    this.player1Score.set(0);
+    this.player2Score.set(0);
+    this.currentPlayer.set(0);
+    this.flippedCards.set([]);
+    this.showRestartConfirm.set(false);
+    
+    // Załaduj karty ponownie (nowe wymieszanie)
+    this.loadCards();
   }
 }

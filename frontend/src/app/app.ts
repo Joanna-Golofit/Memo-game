@@ -38,36 +38,62 @@ export class App implements OnInit {
   // NOWY sygnał dla restart
   protected readonly showRestartConfirm = signal<boolean>(false);
 
+  // NOWE: Dodaj sygnały dla kategorii
+  selectedCategory = signal<string>('all'); // 'all', 'animals', 'people', 'objects', 'colors'
+  availableCategories = signal([
+    { id: 'all', name: 'Wszystkie', icon: '🎲' },
+    { id: 'default', name: 'Domyślne', icon: '🎯' },  // ← DODANA KATEGORIA
+    { id: 'animals', name: 'Zwierzęta', icon: '🐱' },
+    { id: 'people', name: 'Ludzie', icon: '👨‍👩‍👧‍👦' },
+    { id: 'objects', name: 'Przedmioty', icon: '🧁' },
+    { id: 'colors', name: 'Kolory', icon: '🌈' }
+  ]);
+
   ngOnInit() {
     this.loadCards();
   }
 
-  private async loadCards() {
+  // ZMODYFIKOWANA: loadCards z parametrem kategorii
+  private async loadCards(category: string = 'all') {
     try {
-      // Pobierz karty z backend API
-      const response = await this.http.get<Card[]>('http://localhost:3000/api/cards').toPromise();
-      if (response) {
-       // Weź pierwsze 8 kart i stwórz pary
-        const firstEight = response.slice(0, 8);
-        const pairs = [...firstEight, ...firstEight];
-        
-        // Dodaj pozycje i stan
-        const gameCards = pairs.map((card, index) => ({
-          ...card,
-          position: index,
-          isFlipped: true,
-          isMatched: false
-        }));
-        
-        // Wymieszaj
-        const shuffled = this.shuffleArray(gameCards);
-        this.cards.set(shuffled);
-        console.log('Załadowane karty z parami:', shuffled);
+      let url = 'http://localhost:3000/api/cards';
+      
+      // Wybierz odpowiedni endpoint
+      if (category === 'all') {
+        url = 'http://localhost:3000/api/cards/random/8'; // To JUŻ zwraca 16 kart (8 par)!
+      } else {
+        url = `http://localhost:3000/api/cards/category/${category}`;
       }
 
-           // Rozpocznij preview countdown
-           this.startPreview();
+      const response = await this.http.get<Card[]>(url).toPromise();
+      if (response) {
+        let cardsToUse = response;
+        
+        // POPRAWKA: endpoint /random/8 już zwraca gotowe pary!
+        if (category === 'all') {
+          // Dla 'all' nie dubluj - backend już zwraca 16 kart
+          cardsToUse = response;
+        } else {
+          // Dla kategorii - stwórz pary ręcznie
+          const maxCards = Math.min(cardsToUse.length, 8);
+          cardsToUse = this.shuffleArray([...cardsToUse]).slice(0, maxCards);
+          
+          // Stwórz pary
+          const pairs = [...cardsToUse, ...cardsToUse];
+          cardsToUse = this.shuffleArray(pairs);
+          
+          // Dodaj pozycje i stan
+          cardsToUse = cardsToUse.map((card, index) => ({
+            ...card,
+            position: index,
+            isFlipped: false,
+            isMatched: false
+          }));
+        }
 
+        this.cards.set(cardsToUse);
+        this.startPreview();
+      }
     } catch (error) {
       console.error('Błąd ładowania kart:', error);
     }
@@ -261,5 +287,20 @@ export class App implements OnInit {
     
     // Załaduj karty ponownie (nowe wymieszanie)
     this.loadCards();
+  }
+
+  // NOWA: Zmiana kategorii
+  onCategoryChange(category: string) {
+    this.selectedCategory.set(category);
+    this.loadCards(category);
+    this.resetGame(); // Reset gry przy zmianie kategorii
+  }
+
+  private resetGame() {
+    this.gamePhase.set('preview');
+    this.player1Score.set(0);
+    this.player2Score.set(0);
+    this.currentPlayer.set(1);
+    this.previewTimeLeft.set(5);
   }
 }

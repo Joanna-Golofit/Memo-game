@@ -1,4 +1,20 @@
 <div class="memory-game">
+  <!-- NOWY: Selektor kategorii -->
+  <div class="category-selector">
+    <h3>Wybierz kategorię:</h3>
+    <div class="category-buttons">
+      @for (category of availableCategories(); track category.id) {
+        <button 
+          class="category-btn"
+          [class.active]="selectedCategory() === category.id"
+          (click)="onCategoryChange(category.id)">
+          <span class="category-icon">{{category.icon}}</span>
+          <span class="category-name">{{category.name}}</span>
+        </button>
+      }
+    </div>
+  </div>
+
   <!-- Nagłówek gry - BEZ dynamicznych elementów -->
   <header class="game-header">
     <h1 class="game-title">{{ title() }}</h1>
@@ -9,33 +25,31 @@
     <!-- Panel gracza po lewej - Inka -->
     <div class="player-panel left-player" [class.active]="currentPlayer() === 0 && gamePhase() === 'playing'">
       <div class="player-name">Inka</div>
-      <div class="score">⭐ {{ player1Score() }}</div>
+      <div class="score">🏆 {{ player1Score() }}</div>
     </div>
 
     <!-- Plansza gry -->
     <div class="game-board">
-      <div 
-        class="card" 
-        *ngFor="let card of cards()"
-        [class.flipped]="card.isFlipped"
-        [class.matched]="card.isMatched"
-        (click)="onCardClick(card)"
-      >
-        <!-- Przód karty (obrazek) -->
-        <div class="card-front">
-          <img 
-            [src]="getImageUrl(card)" 
-            [alt]="card.name"
-            class="card-image"
-          />
-          <div class="card-name">{{ card.name }}</div>
+      @for (card of cards(); track card.position) {
+        <div 
+          class="card"
+          [class.flipped]="card.isFlipped || gamePhase() === 'preview'"
+          [class.matched]="card.isMatched"
+          (click)="onCardClick(card)">
+          
+          <div class="card-back">
+            <span class="card-text">?</span>
+          </div>
+          
+          <div class="card-front">
+            <img 
+              [src]="getImageUrl(card)" 
+              [alt]="card.name"
+              class="card-image">
+            <span class="card-name">{{card.name}}</span>
+          </div>
         </div>
-        
-        <!-- Tył karty -->
-        <div class="card-back">
-          <div class="card-pattern">?</div>
-        </div>
-      </div>
+      }
     </div>
 
     <!-- Panel gracza po prawej - Natan -->

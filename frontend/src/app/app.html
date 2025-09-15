@@ -1,31 +1,43 @@
 <div class="memory-game">
-  <!-- NOWY: Selektor kategorii -->
-  <div class="category-selector">
-    <h3>Wybierz kategorię:</h3>
-    <div class="category-buttons">
-      @for (category of availableCategories(); track category.id) {
-        <button 
-          class="category-btn"
-          [class.active]="selectedCategory() === category.id"
-          (click)="onCategoryChange(category.id)">
-          <span class="category-icon">{{category.icon}}</span>
-          <span class="category-name">{{category.name}}</span>
-        </button>
-      }
+  <!-- KOMUNIKAT COUNTDOWN - OVERLAY NAD TYTUŁEM -->
+  @if (gamePhase() === 'preview') {
+    <div class="preview-message">
+      <div class="countdown-bubble">
+        ⏰ Zapamiętaj karty: <strong>{{ previewTimeLeft() }}s</strong>
+      </div>
     </div>
-  </div>
+  }
 
-  <!-- Nagłówek gry - BEZ dynamicznych elementów -->
+  <!-- Nagłówek gry -->
   <header class="game-header">
     <h1 class="game-title">{{ title() }}</h1>
   </header>
 
   <!-- Główna sekcja gry -->
   <main class="game-main">
-    <!-- Panel gracza po lewej - Inka -->
+    <!-- Panel gracza po lewej -->
     <div class="player-panel left-player" [class.active]="currentPlayer() === 0 && gamePhase() === 'playing'">
-      <div class="player-name">Inka</div>
-      <div class="score">🏆 {{ player1Score() }}</div>
+      <!-- EDYCJA IMIENIA GRACZA 1 -->
+      @if (isEditingPlayer1()) {
+        <div class="name-editor">
+          <input 
+            type="text" 
+            class="name-input"
+            [value]="player1Name()"
+            (blur)="savePlayer1Name($event)"
+            (keyup.enter)="savePlayer1Name($event)"
+            (keyup.escape)="cancelEditingPlayer1()"
+            maxlength="12"
+            autofocus>
+        </div>
+      } @else {
+        <div class="player-name" (click)="startEditingPlayer1()">
+          {{player1Name()}} 
+          <span class="edit-icon">✏️</span>
+        </div>
+      }
+      
+      <div class="score">⭐ {{ player1Score() }}</div>
     </div>
 
     <!-- Plansza gry -->
@@ -45,65 +57,93 @@
             <img 
               [src]="getImageUrl(card)" 
               [alt]="card.name"
-              class="card-image">
+              class="card-image"
+              loading="lazy">
             <span class="card-name">{{card.name}}</span>
           </div>
         </div>
       }
     </div>
 
-    <!-- Panel gracza po prawej - Natan -->
+    <!-- Panel gracza po prawej -->
     <div class="player-panel right-player" [class.active]="currentPlayer() === 1 && gamePhase() === 'playing'">
-      <div class="player-name">Natan</div>
+      <!-- EDYCJA IMIENIA GRACZA 2 -->
+      @if (isEditingPlayer2()) {
+        <div class="name-editor">
+          <input 
+            type="text" 
+            class="name-input"
+            [value]="player2Name()"
+            (blur)="savePlayer2Name($event)"
+            (keyup.enter)="savePlayer2Name($event)"
+            (keyup.escape)="cancelEditingPlayer2()"
+            maxlength="12"
+            autofocus>
+        </div>
+      } @else {
+        <div class="player-name" (click)="startEditingPlayer2()">
+          {{player2Name()}} 
+          <span class="edit-icon">✏️</span>
+        </div>
+      }
+      
       <div class="score">🏆 {{ player2Score() }}</div>
     </div>
   </main>
 
+  
   <!-- Przycisk restart -->
   <footer class="game-footer">
     <button 
-      class="restart-btn"
-      (click)="onRestartClick()"
-      [class.pulse]="isGameFinished()"
+    class="restart-btn"
+    (click)="onRestartClick()"
+    [class.pulse]="isGameFinished()"
     >
-      <span *ngIf="isGameFinished()">🎉 Zagraj ponownie</span>
-      <span *ngIf="!isGameFinished() && hasNoMatchedCards()">🔄 Nowe karty</span>
-      <span *ngIf="!isGameFinished() && !hasNoMatchedCards()">🔄 Restart gry</span>
-    </button>
-  </footer>
-
-  <!-- OVERLAY MESSAGES - nie wpływają na layout -->
+    <span *ngIf="isGameFinished()">🎉 Zagraj ponownie</span>
+    <span *ngIf="!isGameFinished() && hasNoMatchedCards()">🔄 Nowe karty</span>
+    <span *ngIf="!isGameFinished() && !hasNoMatchedCards()">🔄 Restart gry</span>
+  </button>
   
-  <!-- Preview countdown - NA DOLE -->
-  <div class="overlay-message bottom-overlay" *ngIf="gamePhase() === 'preview'">
-    <div class="preview-message">
-      ⏱️ Zapamiętaj gdzie są pary! {{ previewTimeLeft() }}
+  <!-- KATEGORIE POD PLANSZĄ -->
+    <div class="category-selector">
+      <h3>Wybierz kategorię:</h3>
+      <div class="category-buttons">
+        @for (category of availableCategories(); track category.id) {
+          <button 
+          class="category-btn"
+          [class.active]="selectedCategory() === category.id"
+          (click)="onCategoryChange(category.id)">
+          <span class="category-icon">{{category.icon}}</span>
+          <span class="category-name">{{category.name}}</span>
+        </button>
+      }
     </div>
   </div>
-  
-  <!-- Gratulacje - NAD PLANSZĄ -->
-  <div class="overlay-message center-overlay" *ngIf="isGameFinished()">
-    <div class="finish-message">
-      🎉 Gratulacje!<br>
-      <span *ngIf="player1Score() > player2Score()">🏆 Wygrywa Inka!</span>
-      <span *ngIf="player2Score() > player1Score()">🏆 Wygrywa Natan!</span>
-      <span *ngIf="player1Score() === player2Score()">🤝 Remis!</span>
-    </div>
-  </div>
+</footer>
 
-  <!-- Dialog restart -->
-  <div class="restart-overlay" *ngIf="showRestartConfirm()">
-    <div class="restart-dialog">
-      <h3>🤔 Na pewno chcesz zacząć od nowa?</h3>
-      <p>Stracisz obecny postęp w grze!</p>
-      <div class="dialog-buttons">
-        <button class="btn-cancel" (click)="cancelRestart()">
-          ❌ Nie, graj dalej
-        </button>
-        <button class="btn-confirm" (click)="confirmRestart()">
-          ✅ Tak, zacznij od nowa
-        </button>
+  <!-- OVERLAY MESSAGES -->
+  
+  <!-- Komunikat o zwycięzcy -->
+  @if (gamePhase() === 'finished') {
+    <div class="overlay-message center-overlay">
+      <div class="congratulations">
+        <span *ngIf="player1Score() > player2Score()">🏆 Wygrywa {{player1Name()}}!</span>
+        <span *ngIf="player2Score() > player1Score()">🏆 Wygrywa {{player2Name()}}!</span>
+        <span *ngIf="player1Score() === player2Score()">🤝 Remis!</span>
       </div>
     </div>
-  </div>
+  }
+
+  <!-- Dialog potwierdzenia restartu -->
+  @if (showRestartConfirm()) {
+    <div class="overlay-message restart-overlay">
+      <div class="restart-confirm">
+        <p>Czy na pewno chcesz zacząć nową grę?</p>
+        <div class="confirm-buttons">
+          <button class="confirm-yes" (click)="confirmRestart()">Tak</button>
+          <button class="confirm-no" (click)="cancelRestart()">Nie</button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

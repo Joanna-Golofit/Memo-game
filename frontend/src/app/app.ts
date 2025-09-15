@@ -49,7 +49,20 @@ export class App implements OnInit {
     { id: 'colors', name: 'Kolory', icon: '🌈' }
   ]);
 
+  // NOWE: Sygnały dla imion graczy
+  protected readonly player1Name = signal<string>('Inka');
+  protected readonly player2Name = signal<string>('Natan');
+  protected readonly isEditingPlayer1 = signal<boolean>(false);
+  protected readonly isEditingPlayer2 = signal<boolean>(false);
+
   ngOnInit() {
+    // Wczytaj zapisane imiona
+    const savedPlayer1 = localStorage.getItem('player1Name');
+    const savedPlayer2 = localStorage.getItem('player2Name');
+    
+    if (savedPlayer1) this.player1Name.set(savedPlayer1);
+    if (savedPlayer2) this.player2Name.set(savedPlayer2);
+    
     this.loadCards();
   }
 
@@ -212,8 +225,8 @@ export class App implements OnInit {
     const allMatched = this.cards().every(card => card.isMatched);
     if (allMatched) {
       this.gamePhase.set('finished');
-      const winner = this.player1Score() > this.player2Score() ? 'Inka' : 
-                    this.player2Score() > this.player1Score() ? 'Lorena' : 'Remis';
+      const winner = this.player1Score() > this.player2Score() ? this.player1Name() : 
+                    this.player2Score() > this.player1Score() ? this.player2Name() : 'Remis';
       console.log('Gra skończona! Wygrał:', winner);
     }
   }
@@ -302,5 +315,42 @@ export class App implements OnInit {
     this.player2Score.set(0);
     this.currentPlayer.set(1);
     this.previewTimeLeft.set(5);
+  }
+
+  // NOWE FUNKCJE: Edycja imion
+  protected startEditingPlayer1() {
+    this.isEditingPlayer1.set(true);
+  }
+
+  protected startEditingPlayer2() {
+    this.isEditingPlayer2.set(true);
+  }
+
+  protected savePlayer1Name(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newName = input.value.trim();
+    if (newName && newName.length <= 12) {
+      this.player1Name.set(newName);
+      localStorage.setItem('player1Name', newName); // ← ZAPISZ
+    }
+    this.isEditingPlayer1.set(false);
+  }
+
+  protected savePlayer2Name(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newName = input.value.trim();
+    if (newName && newName.length <= 12) {
+      this.player2Name.set(newName);
+      localStorage.setItem('player2Name', newName); // ← ZAPISZ
+    }
+    this.isEditingPlayer2.set(false);
+  }
+
+  protected cancelEditingPlayer1() {
+    this.isEditingPlayer1.set(false);
+  }
+
+  protected cancelEditingPlayer2() {
+    this.isEditingPlayer2.set(false);
   }
 }

@@ -4,7 +4,9 @@
   align-items: center;
   padding: 20px;
   background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
-  min-height: 100vh;
+  height: 100vh; // ← STAŁA wysokość (było min-height)
+  overflow: hidden; // ← UKRYJ scroll
+  box-sizing: border-box; // ← Padding nie zwiększa rozmiaru
 }
 
 .game-header {
@@ -26,17 +28,22 @@
   max-width: 1200px;
 }
 
-/* Panele graczy */
+/* Panele graczy - DUŻO WIĘKSZE żeby nie poszerzały się przy edycji */
 .player-panel {
   background: #fff;
-  padding: 20px;
+  padding: 30px; // ← WIĘKSZY padding (było 24px)
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  min-width: 150px;
+  width: 220px; // ← STAŁA szerokość (było min-width: 180px)
+  min-height: 120px; // ← STABILNA wysokość
   text-align: center;
-  transition: all 0.3s ease; /* Animacja dla active */
-  border: 5px solid transparent; /* ZAWSZE jest border, ale przezroczysty */
-  box-sizing: border-box; /* Border nie zmienia rozmiaru */
+  transition: all 0.3s ease;
+  border: 5px solid transparent;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px; // ← Odstęp między elementami
 }
 
 .left-player {
@@ -412,4 +419,284 @@
     color: white;
     box-shadow: 0 4px 15px rgba(0,123,255,0.3);
   }
+}
+
+.player-panel {
+  .player-name {
+    font-size: 1.3rem; // ← WIĘKSZA czcionka (było 1.2rem)
+    font-weight: bold;
+    cursor: pointer;
+    padding: 12px 16px; // ← WIĘKSZY padding
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; // ← Większa przerwa
+    min-height: 45px; // ← WIĘKSZA stabilna wysokość
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: scale(1.02);
+      
+      .edit-icon {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+    
+    .edit-icon {
+      font-size: 1.2rem; // ← JESZCZE większy ołówek (było 1.1rem)
+      opacity: 0.8; // ← Bardziej widoczny
+      transition: all 0.3s ease;
+    }
+  }
+  
+  .name-editor {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    .name-input {
+      width: 85%; // ← MNIEJSZY procent szerokości
+      max-width: 160px; // ← WIĘKSZY max-width (było 140px)
+      padding: 10px 14px; // ← WIĘKSZY padding
+      font-size: 1.2rem; // ← Przywróć większą czcionkę
+      font-weight: bold;
+      text-align: center;
+      border: 3px solid #007bff; // ← GRUBSZY border
+      border-radius: 10px; // ← WIĘKSZY border-radius
+      background: white;
+      color: #333;
+      min-height: 25px; // ← WIĘKSZA wysokość
+      
+      &:focus {
+        outline: none;
+        border-color: #0056b3;
+        box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2); // ← WIĘKSZY shadow
+        transform: scale(1.01); // ← Mniejsze powiększenie żeby nie wybijało z panelu
+      }
+    }
+  }
+  
+  .score {
+    font-size: 1.4rem; // ← WIĘKSZY score (było domyślnie)
+    font-weight: bold;
+    margin-top: 5px;
+  }
+}
+
+// Specjalne style dla różnych paneli
+.left-player {
+  .name-input {
+    border-color: #f39c12;
+    
+    &:focus {
+      border-color: #e67e22;
+      box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.3);
+    }
+  }
+}
+
+.right-player {
+  .name-input {
+    border-color: #27ae60;
+    
+    &:focus {
+      border-color: #229954;
+      box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.3);
+    }
+  }
+}
+
+/* KOMUNIKAT NAD TYTUŁEM - PREVIEW */
+.preview-message {
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+  animation: bounceIn 0.6s ease-out;
+}
+
+.countdown-bubble {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  
+  strong {
+    font-size: 1.4rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    animation: pulseNumber 1s infinite;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #ee5a24;
+  }
+}
+
+/* Animacje dla countdown */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(5px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* NAGŁÓWEK - mniej marginesu bo mamy countdown nad nim */
+.game-header {
+  margin-bottom: 30px; // ← MNIEJ (było więcej)
+  text-align: center;
+}
+
+.game-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #2c3e50;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* GŁÓWNY KONTENER - bez scroll */
+.memory-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
+  height: 100vh; // ← STAŁA wysokość (było min-height)
+  overflow: hidden; // ← UKRYJ scroll
+  box-sizing: border-box; // ← Padding nie zwiększa rozmiaru
+}
+
+/* KOMUNIKAT COUNTDOWN - OVERLAY NAD TYTUŁEM */
+.preview-message {
+  position: fixed; // ← OVERLAY (nie relative)
+  top: 80px; // ← POZYCJA nad tytułem
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 150; // ← NAD innymi elementami
+  text-align: center;
+  animation: bounceIn 0.6s ease-out;
+  pointer-events: none; // ← Nie blokuj klików
+}
+
+.countdown-bubble {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  position: relative; // ← Dla pseudo-elementu strzałki
+  
+  strong {
+    font-size: 1.4rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    animation: pulseNumber 1s infinite;
+  }
+  
+  &::after { // ← STRZAŁKA wskazująca na tytuł
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #ee5a24;
+  }
+}
+
+/* NAGŁÓWEK - przywróć normalny margines */
+.game-header {
+  margin-bottom: 40px; // ← PRZYWRÓĆ (countdown nie zabiera miejsca)
+  text-align: center;
+}
+
+.game-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #2c3e50;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* ANIMACJE */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(5px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes pulseNumber {
+  0%, 100% {
+    transform: scale(1);
+    color: white;
+  }
+  50% {
+    transform: scale(1.15);
+    color: #ffef96; // ← Żółty na pulsie
+  }
+}
+
+/* KATEGORIE - mniejsze margines jeśli są za duże */
+.category-selector {
+  margin-top: 20px; // ← MNIEJ (jeśli było więcej)
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* RESTART BUTTON - mniejszy margines */
+.game-footer {
+  margin-top: 20px; // ← MNIEJ
+  text-align: center;
 }

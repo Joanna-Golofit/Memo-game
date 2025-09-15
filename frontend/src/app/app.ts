@@ -41,12 +41,12 @@ export class App implements OnInit {
   // NOWE: Dodaj sygnały dla kategorii
   selectedCategory = signal<string>('all'); // 'all', 'animals', 'people', 'objects', 'colors'
   availableCategories = signal([
-    { id: 'all', name: 'Wszystkie', icon: '🎲' },
-    { id: 'default', name: 'Domyślne', icon: '🎯' },  // ← DODANA KATEGORIA
-    { id: 'animals', name: 'Zwierzęta', icon: '🐱' },
-    { id: 'people', name: 'Ludzie', icon: '👨‍👩‍👧‍👦' },
-    { id: 'objects', name: 'Przedmioty', icon: '🧁' },
-    { id: 'colors', name: 'Kolory', icon: '🌈' }
+    { id: 'all', name: 'All', icon: '🎲' },
+    { id: 'default', name: 'Default', icon: '🎯' },
+    { id: 'animals', name: 'Animals', icon: '🐱' },
+    { id: 'people', name: 'People', icon: '👨‍👩‍👧‍👦' },
+    { id: 'objects', name: 'Objects', icon: '🧁' },
+    { id: 'clothes', name: 'Clothes', icon: '👕' }
   ]);
 
   // NOWE: Sygnały dla imion graczy
@@ -56,14 +56,28 @@ export class App implements OnInit {
   protected readonly isEditingPlayer2 = signal<boolean>(false);
 
   ngOnInit() {
-    // Wczytaj zapisane imiona
+    // Wczytaj zapisane imiona graczy
     const savedPlayer1 = localStorage.getItem('player1Name');
     const savedPlayer2 = localStorage.getItem('player2Name');
     
     if (savedPlayer1) this.player1Name.set(savedPlayer1);
     if (savedPlayer2) this.player2Name.set(savedPlayer2);
     
-    this.loadCards();
+    // NOWE: Wczytaj zapisaną kategorię
+    const savedCategory = localStorage.getItem('selectedCategory');
+    if (savedCategory && this.isCategoryValid(savedCategory)) {
+      this.selectedCategory.set(savedCategory);
+      this.loadCards(savedCategory);
+    } else {
+      // Domyślnie 'all' jeśli nie ma zapisanej lub jest nieprawidłowa
+      this.loadCards('all');
+    }
+  }
+
+  // NOWA: Sprawdź czy kategoria jest prawidłowa
+  private isCategoryValid(category: string): boolean {
+    const validCategories = this.availableCategories().map(cat => cat.id);
+    return validCategories.includes(category);
   }
 
   // ZMODYFIKOWANA: loadCards z parametrem kategorii
@@ -302,9 +316,13 @@ export class App implements OnInit {
     this.loadCards();
   }
 
-  // NOWA: Zmiana kategorii
+  // ZAKTUALIZOWANA: Zmiana kategorii z zapisywaniem
   onCategoryChange(category: string) {
     this.selectedCategory.set(category);
+    
+    // Zapisz kategorię do localStorage
+    localStorage.setItem('selectedCategory', category);
+    
     this.loadCards(category);
     this.resetGame(); // Reset gry przy zmianie kategorii
   }
@@ -352,5 +370,27 @@ export class App implements OnInit {
 
   protected cancelEditingPlayer2() {
     this.isEditingPlayer2.set(false);
+  }
+
+  // OPCJONALNIE: Metoda do resetowania preferencji
+  resetPreferences() {
+    localStorage.removeItem('player1Name');
+    localStorage.removeItem('player2Name');
+    localStorage.removeItem('selectedCategory');
+    
+    // Przywróć domyślne wartości
+    this.player1Name.set('Inka');
+    this.player2Name.set('Natan');
+    this.selectedCategory.set('all');
+    this.loadCards('all');
+  }
+
+  // OPCJONALNIE: Debug - pokaż zapisane dane
+  getStoredData() {
+    return {
+      player1: localStorage.getItem('player1Name'),
+      player2: localStorage.getItem('player2Name'),
+      category: localStorage.getItem('selectedCategory')
+    };
   }
 }

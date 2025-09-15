@@ -74,7 +74,7 @@
   margin-top: 10px;
 }
 
-/* Plansza gry - WIĘKSZE PRZERWY */
+/* Plansza gry - STABILNE WYMIARY */
 .game-board {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -84,9 +84,29 @@
   background: rgba(255,255,255,0.2);
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  
+  /* STABILNE WYMIARY - nie skacze przy przeładowywaniu */
+  width: 415px; // ← STAŁA szerokość (4×80 + 3×15 + 2×25)
+  height: 415px; // ← STAŁA wysokość (kwadrat)
+  min-width: 415px; // ← MINIMALNA szerokość
+  min-height: 415px; // ← MINIMALNA wysokość
+  
+  /* PRZYGOTOWANIE NA PRZYSZŁOŚĆ - większe plansze */
+  max-width: 550px; // ← MAX dla 5x5 czy 6x6
+  max-height: 550px; // ← MAX wysokość
+  
+  /* RESPONSIVE - na małych ekranach */
+  @media (max-width: 500px) {
+    width: 340px; // ← Mniejsza na telefonach
+    height: 340px;
+    min-width: 340px;
+    min-height: 340px;
+    gap: 10px; // ← Mniejsze przerwy
+    padding: 20px; // ← Mniejszy padding
+  }
 }
 
-/* KARTY */
+/* KARTY - STABILNE ROZMIARY */
 .card {
   width: 80px;
   height: 80px;
@@ -94,6 +114,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border-radius: 8px;
+  
+  /* RESPONSIVE - mniejsze karty na telefonach */
+  @media (max-width: 500px) {
+    width: 65px; // ← Mniejsze na telefonach
+    height: 65px;
+  }
 }
 
 .card:hover:not(.matched) {
@@ -184,8 +210,10 @@
   margin-bottom: 20px;
 }
 
+/* ZAKOMENTUJ STARY PREVIEW MESSAGE (linia 187) */
+/*
 .preview-message {
-  background: linear-gradient(135deg, #f1c40f, #f39c12);
+  background: linear-gradient(135deg, #f1c40f, #f39c12);  ← ŻÓŁTE TŁO - USUŃ!
   color: #2c3e50;
   padding: 15px 30px;
   border-radius: 25px;
@@ -194,8 +222,9 @@
   display: inline-block;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
-  animation: slideUp 0.5s ease; /* Płynne wejście */
+  animation: slideUp 0.5s ease;
 }
+*/
 
 /* Footer z przyciskiem restart */
 .game-footer {
@@ -368,7 +397,9 @@
   }
 }
 
+/* KATEGORIE - DALEJ OD RESTART BUTTON */
 .category-selector {
+  margin-top: 50px; // ← DODAJ WIĘKSZY margines (było 0)
   margin-bottom: 20px;
   text-align: center;
   
@@ -510,158 +541,50 @@
 }
 
 /* KOMUNIKAT NAD TYTUŁEM - PREVIEW */
+/* ZAKOMENTUJ TO - DUPLIKAT I ZLE KOLORY */
+/*
 .preview-message {
   position: relative;
   text-align: center;
   margin-bottom: 20px;
   animation: bounceIn 0.6s ease-out;
 }
+*/
 
-.countdown-bubble {
-  display: inline-block;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  
-  strong {
-    font-size: 1.4rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    animation: pulseNumber 1s infinite;
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #ee5a24;
-  }
-}
-
-/* Animacje dla countdown */
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.8);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(5px) scale(1.05);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-/* NAGŁÓWEK - mniej marginesu bo mamy countdown nad nim */
-.game-header {
-  margin-bottom: 30px; // ← MNIEJ (było więcej)
-  text-align: center;
-}
-
-.game-title {
-  font-size: 3rem;
-  font-weight: 900;
-  color: #2c3e50;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-/* GŁÓWNY KONTENER - bez scroll */
-.memory-game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
-  height: 100vh; // ← STAŁA wysokość (było min-height)
-  overflow: hidden; // ← UKRYJ scroll
-  box-sizing: border-box; // ← Padding nie zwiększa rozmiaru
-}
-
-/* KOMUNIKAT COUNTDOWN - OVERLAY NAD TYTUŁEM */
+/* NAPRAW PREVIEW MESSAGE (około linia 515) - zmień na OVERLAY */
 .preview-message {
-  position: fixed; // ← OVERLAY (nie relative)
-  top: 80px; // ← POZYCJA nad tytułem
+  position: fixed; // ← ZMIEŃ z relative na fixed!
+  top: 80px; // ← DODAJ pozycję nad MEMO MIX
   left: 50%;
   transform: translateX(-50%);
-  z-index: 150; // ← NAD innymi elementami
+  z-index: 150; // ← DODAJ z-index żeby był NAD wszystkim
   text-align: center;
   animation: bounceIn 0.6s ease-out;
   pointer-events: none; // ← Nie blokuj klików
 }
 
+/* DODAJ COUNTDOWN BUBBLE - BRAKUJE! */
 .countdown-bubble {
   display: inline-block;
-  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #e74c3c, #c0392b); // ← TYLKO CZERWONY
   color: white;
   padding: 12px 24px;
   border-radius: 25px;
   font-size: 1.2rem;
   font-weight: 600;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
   border: 3px solid rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
-  position: relative; // ← Dla pseudo-elementu strzałki
+  position: relative;
   
   strong {
     font-size: 1.4rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     animation: pulseNumber 1s infinite;
   }
-  
-  &::after { // ← STRZAŁKA wskazująca na tytuł
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #ee5a24;
-  }
 }
 
-/* NAGŁÓWEK - przywróć normalny margines */
-.game-header {
-  margin-bottom: 40px; // ← PRZYWRÓĆ (countdown nie zabiera miejsca)
-  text-align: center;
-}
-
-.game-title {
-  font-size: 3rem;
-  font-weight: 900;
-  color: #2c3e50;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-/* ANIMACJE */
+/* DODAJ ANIMACJE - BRAKUJĄ! */
 @keyframes bounceIn {
   0% {
     opacity: 0;
@@ -684,15 +607,8 @@
   }
   50% {
     transform: scale(1.15);
-    color: #ffef96; // ← Żółty na pulsie
+    color: #ffef96; // ← Żółty puls
   }
-}
-
-/* KATEGORIE - mniejsze margines jeśli są za duże */
-.category-selector {
-  margin-top: 20px; // ← MNIEJ (jeśli było więcej)
-  margin-bottom: 10px;
-  text-align: center;
 }
 
 /* RESTART BUTTON - mniejszy margines */

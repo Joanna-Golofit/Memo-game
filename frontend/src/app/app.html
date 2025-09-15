@@ -38,9 +38,9 @@
       </div>
     </div>
 
-    <!-- Panel gracza po prawej - Lorena -->
+    <!-- Panel gracza po prawej - Natan -->
     <div class="player-panel right-player" [class.active]="currentPlayer() === 1 && gamePhase() === 'playing'">
-      <div class="player-name">Lorena</div>
+      <div class="player-name">Natan</div>
       <div class="score">🏆 {{ player2Score() }}</div>
     </div>
   </main>
@@ -72,7 +72,7 @@
     <div class="finish-message">
       🎉 Gratulacje!<br>
       <span *ngIf="player1Score() > player2Score()">🏆 Wygrywa Inka!</span>
-      <span *ngIf="player2Score() > player1Score()">🏆 Wygrywa Lorena!</span>
+      <span *ngIf="player2Score() > player1Score()">🏆 Wygrywa Natan!</span>
       <span *ngIf="player1Score() === player2Score()">🤝 Remis!</span>
     </div>
   </div>

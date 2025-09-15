@@ -33,7 +33,7 @@ export class App implements OnInit {
     protected readonly previewTimeLeft = signal<number>(5);
     protected readonly player1Score = signal<number>(0);
     protected readonly player2Score = signal<number>(0);
-    protected readonly currentPlayer = signal<number>(0); // 0 = Inka, 1 = Lorena
+    protected readonly currentPlayer = signal<number>(0); // 0 = Inka, 1 = Natan
 
   // NOWY sygnał dla restart
   protected readonly showRestartConfirm = signal<boolean>(false);

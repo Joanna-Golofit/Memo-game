@@ -93,3 +93,6 @@ memory/
 
 ## 📄 License
 MIT License - feel free to use this project for learning!
+
+sounds from: https://ttsmp3.com/
+pictures: https://leonardo.ai

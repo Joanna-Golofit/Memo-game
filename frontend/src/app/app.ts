@@ -44,9 +44,10 @@ export class App implements OnInit {
     { id: 'all', name: 'All', icon: '🎲' },
     { id: 'default', name: 'Default', icon: '🎯' },
     { id: 'animals', name: 'Animals', icon: '🐱' },
+    { id: 'animals2', name: 'Animals 2', icon: '🐑' }, // ← NOWA!
     { id: 'people', name: 'People', icon: '👨‍👩‍👧‍👦' },
     { id: 'objects', name: 'Objects', icon: '🧁' },
-    { id: 'clothes', name: 'Clothes 1', icon: '👕' }
+    { id: 'clothes', name: 'Clothes', icon: '👕' }
   ]);
 
   // NOWE: Sygnały dla imion graczy

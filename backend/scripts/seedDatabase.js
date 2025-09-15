@@ -144,6 +144,59 @@ const sampleCards = [
     isActive: true
   },
 
+  // === NOWE KARTY ANIMALS2! ===
+  { 
+    id: 'sheep', 
+    name: 'Sheep', 
+    imagePath: '/uploads/images/animals2/sheep.jpg', 
+    audioPath: '/uploads/audio/animals2/sheep.mp3',  // ← POPRAWIONA ŚCIEŻKA!
+    category: 'animals2',
+    isActive: true
+  },
+
+  // === NOWE KARTY ANIMALS2! ===
+  { 
+    id: 'cow', 
+    name: 'Cow', 
+    imagePath: '/uploads/images/animals2/cow.jpg', 
+    audioPath: '/uploads/audio/animals2/cow.mp3', 
+    category: 'animals2',
+    isActive: true
+  },
+  { 
+    id: 'duck', 
+    name: 'Duck', 
+    imagePath: '/uploads/images/animals2/duck.jpg', 
+    audioPath: '/uploads/audio/animals2/duck.mp3', 
+    category: 'animals2',
+    isActive: true
+  },
+
+{ 
+  id: 'goat', 
+  name: 'Goat', 
+  imagePath: '/uploads/images/animals2/goat.jpg', 
+  audioPath: '/uploads/audio/animals2/goat.mp3', 
+  category: 'animals2',
+  isActive: true
+},
+{ 
+  id: 'hen', 
+  name: 'Hen', 
+  imagePath: '/uploads/images/animals2/hen.jpg', 
+  audioPath: '/uploads/audio/animals2/hen.mp3', 
+  category: 'animals2',
+  isActive: true
+},
+{ 
+  id: 'horse', 
+  name: 'Horse', 
+  imagePath: '/uploads/images/animals2/horse.jpg', 
+  audioPath: '/uploads/audio/animals2/horse.mp3', 
+  category: 'animals2',
+  isActive: true
+},
+
   // === NOWE KARTY UBRAŃ! ===
   { 
     id: 'autumn', 
@@ -278,6 +331,30 @@ const sampleCards = [
     name: 'Winter', 
     imagePath: '/uploads/images/clothes/winter.jpg', 
     audioPath: '/uploads/audio/clothes/winter.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'dressing-gown', 
+    name: 'Dressing Gown', 
+    imagePath: '/uploads/images/clothes/dressing gown.jpg', 
+    audioPath: '/uploads/audio/clothes/dressing gown.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'pyjamas', 
+    name: 'Pyjamas', 
+    imagePath: '/uploads/images/clothes/pyjamas.jpg', 
+    audioPath: '/uploads/audio/clothes/pyjamas.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'slippers', 
+    name: 'Slippers', 
+    imagePath: '/uploads/images/clothes/slippers.jpg', 
+    audioPath: '/uploads/audio/clothes/slippers.mp3', 
     category: 'clothes',
     isActive: true
   }

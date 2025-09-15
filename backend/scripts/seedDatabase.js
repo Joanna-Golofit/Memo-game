@@ -146,6 +146,14 @@ const sampleCards = [
 
   // === NOWE KARTY UBRAŃ! ===
   { 
+    id: 'autumn', 
+    name: 'Autumn', 
+    imagePath: '/uploads/images/clothes/autumn.jpg', 
+    audioPath: '/uploads/audio/clothes/autumn.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
     id: 'boots', 
     name: 'Boots', 
     imagePath: '/uploads/images/clothes/boots.jpg', 
@@ -234,10 +242,26 @@ const sampleCards = [
     isActive: true
   },
   { 
+    id: 'spring', 
+    name: 'Spring', 
+    imagePath: '/uploads/images/clothes/spring.jpg', 
+    audioPath: '/uploads/audio/clothes/spring.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'summer', 
+    name: 'Summer', 
+    imagePath: '/uploads/images/clothes/summer.jpg', 
+    audioPath: '/uploads/audio/clothes/summer.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
     id: 't-shirt', 
     name: 'T-shirt', 
     imagePath: '/uploads/images/clothes/t-shirt.jpg', 
-    audioPath: '/uploads/audio/clothes/T-shirt.mp3', // ← UWAGA: wielka litera w audio!
+    audioPath: '/uploads/audio/clothes/t-shirt.mp3', 
     category: 'clothes',
     isActive: true
   },
@@ -246,6 +270,14 @@ const sampleCards = [
     name: 'Trousers', 
     imagePath: '/uploads/images/clothes/trousers.jpg', 
     audioPath: '/uploads/audio/clothes/trousers.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'winter', 
+    name: 'Winter', 
+    imagePath: '/uploads/images/clothes/winter.jpg', 
+    audioPath: '/uploads/audio/clothes/winter.mp3', 
     category: 'clothes',
     isActive: true
   }

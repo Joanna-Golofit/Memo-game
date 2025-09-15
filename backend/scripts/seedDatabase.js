@@ -10,7 +10,7 @@ const sampleCards = [
     name: 'Boy', 
     imagePath: '/uploads/images/default/boy.jpg', 
     audioPath: '/uploads/audio/default/boy.mp3', 
-    category: 'default',  // ← ZMIEŃ NA 'default'
+    category: 'default',
     isActive: true  
   },
   { 
@@ -18,7 +18,7 @@ const sampleCards = [
     name: 'Cat', 
     imagePath: '/uploads/images/default/cat.jpg', 
     audioPath: '/uploads/audio/default/cat.mp3', 
-    category: 'default',  // ← ZMIEŃ NA 'default'
+    category: 'default',
     isActive: true  
   },
   { 
@@ -26,7 +26,7 @@ const sampleCards = [
     name: 'Mum', 
     imagePath: '/uploads/images/default/mum.jpg', 
     audioPath: '/uploads/audio/default/mum.mp3', 
-    category: 'default',  // ← ZMIEŃ NA 'default'
+    category: 'default',
     isActive: true
   },
   { 
@@ -34,7 +34,7 @@ const sampleCards = [
     name: 'Grandpa', 
     imagePath: '/uploads/images/default/grandpa.jpeg', 
     audioPath: '/uploads/audio/default/grandpa.mp3', 
-    category: 'default',  // ← ZMIEŃ NA 'default'
+    category: 'default',
     isActive: true
   },
   { 
@@ -42,7 +42,7 @@ const sampleCards = [
     name: 'Cupcake', 
     imagePath: '/uploads/images/default/cupcake.jpg', 
     audioPath: '/uploads/audio/default/cupcake.mp3', 
-    category: 'default',  // ← ZMIEŃ NA 'default'
+    category: 'default',
     isActive: true
   },
   { 
@@ -50,7 +50,7 @@ const sampleCards = [
     name: 'Grandma', 
     imagePath: '/uploads/images/default/grandma.jpg', 
     audioPath: '/uploads/audio/default/grandma.mp3', 
-    category: 'default',  // ← ZMIEŃ NA 'default'
+    category: 'default',
     isActive: true
   },
   { 
@@ -58,7 +58,7 @@ const sampleCards = [
     name: 'Green', 
     imagePath: '/uploads/images/default/green.jpg', 
     audioPath: '/uploads/audio/default/green.mp3', 
-    category: 'default',  // ← ZMIEŃ NA 'default'
+    category: 'default',
     isActive: true
   },
   { 
@@ -66,11 +66,11 @@ const sampleCards = [
     name: 'Yellow', 
     imagePath: '/uploads/images/default/yellow.jpg', 
     audioPath: '/uploads/audio/default/yellow.mp3', 
-    category: 'default',  // ← ZMIEŃ NA 'default'
+    category: 'default',
     isActive: true
   },
 
-  // === NOWE KARTY ZWIERZĄT ===
+  // === ISTNIEJĄCE KARTY ZWIERZĄT ===
   { 
     id: 'dog', 
     name: 'Dog', 
@@ -141,6 +141,112 @@ const sampleCards = [
     imagePath: '/uploads/images/animals/turtle.jpg', 
     audioPath: '/uploads/audio/animals/turtle.mp3', 
     category: 'animals',
+    isActive: true
+  },
+
+  // === NOWE KARTY UBRAŃ! ===
+  { 
+    id: 'boots', 
+    name: 'Boots', 
+    imagePath: '/uploads/images/clothes/boots.jpg', 
+    audioPath: '/uploads/audio/clothes/boots.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'cap', 
+    name: 'Cap', 
+    imagePath: '/uploads/images/clothes/cap.jpg', 
+    audioPath: '/uploads/audio/clothes/cap.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'coat', 
+    name: 'Coat', 
+    imagePath: '/uploads/images/clothes/coat.jpg', 
+    audioPath: '/uploads/audio/clothes/coat.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'fleece', 
+    name: 'Fleece', 
+    imagePath: '/uploads/images/clothes/fleece.jpg', 
+    audioPath: '/uploads/audio/clothes/fleece.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'gloves', 
+    name: 'Gloves', 
+    imagePath: '/uploads/images/clothes/gloves.jpg', 
+    audioPath: '/uploads/audio/clothes/gloves.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'hat', 
+    name: 'Hat', 
+    imagePath: '/uploads/images/clothes/hat.jpg', 
+    audioPath: '/uploads/audio/clothes/hat.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'jumper', 
+    name: 'Jumper', 
+    imagePath: '/uploads/images/clothes/jumper.jpg', 
+    audioPath: '/uploads/audio/clothes/jumper.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'scarf', 
+    name: 'Scarf', 
+    imagePath: '/uploads/images/clothes/scarf.jpg', 
+    audioPath: '/uploads/audio/clothes/scarf.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'shoes', 
+    name: 'Shoes', 
+    imagePath: '/uploads/images/clothes/shoes.jpg', 
+    audioPath: '/uploads/audio/clothes/shoes.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'shorts', 
+    name: 'Shorts', 
+    imagePath: '/uploads/images/clothes/shorts.jpg', 
+    audioPath: '/uploads/audio/clothes/shorts.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'skirt', 
+    name: 'Skirt', 
+    imagePath: '/uploads/images/clothes/skirt.jpg', 
+    audioPath: '/uploads/audio/clothes/skirt.mp3', 
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 't-shirt', 
+    name: 'T-shirt', 
+    imagePath: '/uploads/images/clothes/t-shirt.jpg', 
+    audioPath: '/uploads/audio/clothes/T-shirt.mp3', // ← UWAGA: wielka litera w audio!
+    category: 'clothes',
+    isActive: true
+  },
+  { 
+    id: 'trousers', 
+    name: 'Trousers', 
+    imagePath: '/uploads/images/clothes/trousers.jpg', 
+    audioPath: '/uploads/audio/clothes/trousers.mp3', 
+    category: 'clothes',
     isActive: true
   }
 ];
